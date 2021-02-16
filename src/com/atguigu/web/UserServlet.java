@@ -46,14 +46,20 @@ public class UserServlet extends BaseServlet {
 
         }
     }
+    protected void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 1、销毁 Session 中用户登录的信息（或者销毁 Session）
+        request.getSession().invalidate();
+        // 2、重定向到首页（或登录页面）。
+        response.sendRedirect(request.getContextPath());
+    }
 
-    /**
-     * 处理注册功能
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
+        /**
+         * 处理注册功能
+         * @param request
+         * @param response
+         * @throws ServletException
+         * @throws IOException
+         */
     protected void regist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //获取请求的参数
         String username = request.getParameter("username");
