@@ -4,6 +4,7 @@ import com.atguigu.pojo.User;
 import com.atguigu.service.UserService;
 import com.atguigu.service.impl.UserServiceImpl;
 import com.atguigu.utils.WebUtils;
+import com.google.code.kaptcha.servlet.KaptchaServlet;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+
+import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
 public class UserServlet extends BaseServlet {
 
@@ -61,14 +64,21 @@ public class UserServlet extends BaseServlet {
          * @throws IOException
          */
     protected void regist(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        //验证码功能
+        //获取session中的验证码
+        String token = (String) request.getSession().getAttribute(KAPTCHA_SESSION_KEY);
+        //删除Session中的验证码
+        request.getSession().removeAttribute(KAPTCHA_SESSION_KEY);
+
         //获取请求的参数
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         String email = request.getParameter("email");
+        //获取输入的验证码
         String code = request.getParameter("code");
 
         // 2、检查 验证码是否正确 === 写死,要求验证码为:abcde
-        if ("abcde".equalsIgnoreCase(code)){
+        if (token != null && token.equalsIgnoreCase(code)){
             //3、检查用户名是否可用
             if (userService.existsUserName(username)){
                 System.out.println("用户名[" + username + "]已存在!");

@@ -81,8 +81,13 @@
 
 					// 去掉错误信息
 					$("span.errorMsg").text("");
-
 				});
+				//给验证码绑定单击事件
+				$("#code_img").click(function () {
+					//src属性表示验证码img标签的 图片路径。它可读可写
+					//增加时间戳防止火狐和IE的验证码缓存
+					this.src = "${basePath}/kaptcha.jpg?d=" + new Date();
+				})
 
 			});
 
@@ -141,8 +146,8 @@
 									<br />
 									<br />
 									<label>验证码：</label>
-									<input class="itxt" type="text" name="code" style="width: 150px;" id="code" />
-									<img alt="" src="static/img/code.bmp" style="float: right; margin-right: 40px">
+									<input class="itxt" type="text" name="code" style="width: 100px;" id="code" />
+									<img id="code_img" alt="" src="kaptcha.jpg" style="float: right; margin-right: 40px; width: 110px; height: 40px">
 									<br />
 									<br />
 									<input type="submit" value="注册" id="sub_btn" />
