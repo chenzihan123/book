@@ -18,7 +18,23 @@
             //清空购物车按钮绑定单击事件
             $("#clearCart").click(function () {
                 return confirm("你确定清空购物车吗？");
-            })
+            });
+            //修改商品数量绑定事件，给输入框onchange内容发生改变事件，绑定失去焦点事件 === change事件
+            //blur失去焦点事件不能判断输入框有没有进行修改，建议使用change事件
+            $(".updateCount").change(function () {
+                var id = $(this).attr("bookId");
+                //获取商品名称
+                var name = $(this).parent().parent().find("td:first").text();
+                // 获取商品数量
+                var count = this.value;
+                if (confirm("你确定要将【" + name + "】商品修改数量为：" + count + " 吗？")){
+                    // 发起请求。给服务器保存修改
+                    location.href = "http://localhost:8080/book/cartServlet?action=updateCount&count=" + count + "&id=" + id;
+                }else {
+                    //defaultValue属性是表单项Dom对象的属性。它表示默认的value属性值。
+                    this.value = this.defaultValue;
+                }
+            });
         });
     </script>
 </head>
@@ -55,7 +71,9 @@
             <c:forEach items="${sessionScope.cart.items}" var="entry">
                 <tr>
                     <td>${entry.value.name}</td>
-                    <td>${entry.value.count}</td>
+                    <td>
+                        <input class="updateCount" style="width: 80px"  bookId="${entry.value.id}" type="text" value="${entry.value.count}"/>
+                    </td>
                     <td>${entry.value.price}</td>
                     <td>${entry.value.totalPrice}</td>
                     <td><a class="deleteItem" href="cartServlet?action=deleteItem&id=${entry.value.id}">删除</a></td>
