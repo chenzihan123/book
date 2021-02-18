@@ -7,6 +7,20 @@
     <title>书城首页</title>
     <%--    静态包含 base标签，css样式，jQuery --%>
     <%@include file="/pages/common/head.jsp" %>
+    <script type="text/javascript">
+        $(function () {
+            // 加入购物车按钮绑定单击事件
+            $("button.addToCart").click(function () {
+                /**
+                 * 在事件响应的function函数中，有一个this对象，这个this对象，是当前正在响应事件的dom对象
+                 * attr 设置或返回被选元素的属性值
+                 * @type {jQuery}
+                 */
+                var bookId = $(this).attr("bookId");
+                location.href = "http://localhost:8080/book/cartServlet?action=addItem&id=" + bookId;
+            })
+        })
+    </script>
 </head>
 <body>
 
@@ -20,11 +34,11 @@
             <a href="pages/user/regist.jsp">注册</a> &nbsp;&nbsp;
         </c:if>
         <%--如果已经登录，则显示 登录 成功之后的用户信息--%>
-            <c:if test="${not empty sessionScope.user}">
-                <span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
-                <a href="pages/order/order.jsp">我的订单</a>
-                <a href="userServlet?action=logout">注销</a>
-            </c:if>
+        <c:if test="${not empty sessionScope.user}">
+            <span>欢迎<span class="um_span">${sessionScope.user.username}</span>光临尚硅谷书城</span>
+            <a href="pages/order/order.jsp">我的订单</a>
+            <a href="userServlet?action=logout">注销</a>
+        </c:if>
         <a href="pages/cart/cart.jsp">购物车</a>
         <a href="pages/manager/manager.jsp">后台管理</a>
     </div>
@@ -72,7 +86,7 @@
                         <span class="sp2">${book.stock}</span>
                     </div>
                     <div class="book_add">
-                        <button>加入购物车</button>
+                        <button class="addToCart" bookId="${book.id}">加入购物车</button>
                     </div>
                 </div>
             </div>
