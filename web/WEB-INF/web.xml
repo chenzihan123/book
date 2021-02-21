@@ -73,6 +73,25 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>OrderServlet</servlet-name>
-        <url-pattern>/orderServlet</url-pattern>
+        <url-pattern>/manager/orderServlet</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ClientOrderServlet</servlet-name>
+        <servlet-class>com.atguigu.web.ClientOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ClientOrderServlet</servlet-name>
+        <url-pattern>/client/orderServlet</url-pattern>
+    </servlet-mapping>
+    <filter>
+        <filter-name>ManagerFilter</filter-name>
+        <filter-class>com.atguigu.filter.ManagerFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ManagerFilter</filter-name>
+        <url-pattern>/pages/manager/*</url-pattern>
+        <url-pattern>/manager/bookServlet</url-pattern>
+        <url-pattern>/manager/orderServlet</url-pattern>
+        <url-pattern>/client/orderServlet</url-pattern>
+    </filter-mapping>
 </web-app>

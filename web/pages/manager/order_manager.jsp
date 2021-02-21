@@ -52,8 +52,8 @@
                 </c:if>
 
                     <%--                <td>${order.status}</td>--%>
-                <td><a href="orderServlet?action=showOrderDetail&orderId=${order.orderId}">查看详情</a></td>
-                <td><a href="orderServlet?action=sendOrder&orderId=${order.orderId}">点击发货</a></td>
+                <td><a href="/manager/orderServlet?action=showOrderDetail&orderId=${order.orderId}">查看详情</a></td>
+                <td><a href="/manager/orderServlet?action=sendOrder&orderId=${order.orderId}">点击发货</a></td>
             </tr>
         </c:forEach>
     </table>
