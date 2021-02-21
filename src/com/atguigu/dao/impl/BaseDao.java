@@ -24,12 +24,10 @@ public abstract class BaseDao {
         Connection connection = JdbcUtils.getConnection();
         try {
             return queryRunner.update(connection,sql,args);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            JdbcUtils.closeConnection(connection);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
-        return -1;
     }
 
     /**
@@ -44,12 +42,10 @@ public abstract class BaseDao {
         Connection connection = JdbcUtils.getConnection();
         try {
             return queryRunner.query(connection, sql, new BeanHandler<T>(tClass),args);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            JdbcUtils.closeConnection(connection);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
-        return null;
     }
 
     /**
@@ -64,12 +60,10 @@ public abstract class BaseDao {
         Connection connection = JdbcUtils.getConnection();
         try {
             return queryRunner.query(connection,sql,new BeanListHandler<T>(tClass),args);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            JdbcUtils.closeConnection(connection);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
-        return null;
     }
 
     /**
@@ -82,12 +76,10 @@ public abstract class BaseDao {
         Connection connection = JdbcUtils.getConnection();
         try {
             return queryRunner.query(connection,sql,new ScalarHandler(),args);
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
-        }finally {
-            JdbcUtils.closeConnection(connection);
+        } catch (SQLException exception) {
+            exception.printStackTrace();
+            throw new RuntimeException(exception);
         }
-        return null;
     }
 
 }
