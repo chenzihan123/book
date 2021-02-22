@@ -24,12 +24,9 @@ public abstract class BaseServlet extends HttpServlet {
 
             //调用目标业务 方法
             method.invoke(this,request,response);
-        } catch (NoSuchMethodException e) {
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);//把异常抛给 Filter 过滤器
         }
     }
 
