@@ -12,6 +12,19 @@
 		<script type="text/javascript">
 			// 页面加载完成之后
 			$(function () {
+				$("#username").blur(function () {
+					//获取用户名
+					var username = this.value();
+					//发起Ajax请求
+					$.getJSON("http://localhost:8080/book/userServlet","action=ajaxExistsUsername&username=" + username,function (data) {
+						if (data.existsUserName){
+							$("span.errorMsg").text("用户名已存在！");
+						}else {
+							$("span.errorMsg").text("用户名可用！");
+						}
+					});
+				});
+
 				// 给注册绑定单击事件
 				$("#sub_btn").click(function () {
 					// 验证用户名：必须由字母，数字下划线组成，并且长度为5到12位

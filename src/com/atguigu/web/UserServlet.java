@@ -5,6 +5,7 @@ import com.atguigu.service.UserService;
 import com.atguigu.service.impl.UserServiceImpl;
 import com.atguigu.utils.WebUtils;
 import com.google.code.kaptcha.servlet.KaptchaServlet;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 
 import static com.google.code.kaptcha.Constants.KAPTCHA_SESSION_KEY;
 
@@ -112,29 +114,46 @@ public class UserServlet extends BaseServlet {
         }
     }
 
-        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-         String action = request.getParameter("action");
-            //1、判断action的值调用不同的方法
-//         if ("login".equals(action)){
-//             login(request,response);
-//         }else if ("regist".equals(action)){
-//             regist(request,response);
-//         }
+//        protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//         String action = request.getParameter("action");
+//            //1、判断action的值调用不同的方法
+////         if ("login".equals(action)){
+////             login(request,response);
+////         }else if ("regist".equals(action)){
+////             regist(request,response);
+////         }
+//
+////            2、使用反射优化大量的else if代码
+//            try {
+//                // 获取 action 业务鉴别字符串，获取相应的业务 方法反射对象
+//                Method method = this.getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
+//
+//                //调用目标业务 方法
+//                method.invoke(this,request,response);
+//            } catch (NoSuchMethodException e) {
+//                e.printStackTrace();
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            } catch (InvocationTargetException e) {
+//                e.printStackTrace();
+//            }
+//
+//        }
 
-//            2、使用反射优化大量的else if代码
-            try {
-                // 获取 action 业务鉴别字符串，获取相应的业务 方法反射对象
-                Method method = this.getClass().getDeclaredMethod(action, HttpServletRequest.class, HttpServletResponse.class);
+        protected void ajaxExistsUsername(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+            //获取请求参数
+            String username = request.getParameter("username");
+            //调用userService.existsUsername()
+            boolean existsUserName = userService.existsUserName(username);
+            //把返回的结果封装成Map对象
+            HashMap<String, Object> resultMap = new HashMap<>();
+            resultMap.put("existsUserName",existsUserName);
 
-                //调用目标业务 方法
-                method.invoke(this,request,response);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
+            Gson gson = new Gson();
+            String json = gson.toJson(resultMap);
 
+            response.getWriter().write(json);
         }
+
+
 }

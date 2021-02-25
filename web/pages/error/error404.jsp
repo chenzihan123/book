@@ -9,7 +9,7 @@
 <html>
 <head>
     <title>Title</title>
-    <%@include file="/pages/common/head.jsp"%>
+    <%@include file="/pages/common/head.jsp" %>
 </head>
 <body>
 很抱歉，您访问的页面不存在，程序猿小哥，正在努力抢修！！！
